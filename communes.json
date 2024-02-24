@@ -1,0 +1,20 @@
+[
+  {
+    "nom": "Yverdon-les-Bains",
+    "lienReglements": "https://www.yverdon-les-bains.ch/votre-commune/acces-a-linformation/reglements-communaux",
+    "lienPortail": "https://mapnv.ch/s/aTYF",
+    "remarques": "Aucune remarque"
+  },
+  {
+    "nom": "Vuiteboeuf",
+    "lienReglements": "https://www.vuiteboeuf.ch/r%C3%A8glement-communaux",
+    "lienPortail": "Aucun",
+    "remarques": "Aucune remarque"
+  },
+  {
+    "nom": "Lyon",
+    "lienReglements": "http://lien-reglements-lyon.com",
+    "lienPortail": "http://lien-portail-lyon.com",
+    "remarques": "Remarques sur Lyon"
+  }
+]

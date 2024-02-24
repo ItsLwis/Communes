@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Communes</title>
+
+    <!-- Ajout du lien vers le fichier CSS général -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Ajout du lien vers le fichier CSS personnalisé -->
+    <link rel="stylesheet" href="styles-custom.css">
+
+    <!-- Les liens vers les icônes peuvent rester ici ou être inclus dans le fichier CSS selon votre préférence -->
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/corner-down-left.css' rel='stylesheet'>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/browser.css' rel='stylesheet'>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/file-document.css' rel='stylesheet'>
+</head>
+
+<body>
+    <h1>Recherche de Communes</h1>
+
+    <!-- Nouvelle barre de recherche -->
+    <div class="search">
+        <input placeholder="Rechercher une commune..." type="text" id="commune" name="commune" oninput="miseAJourListe(this.value)" list="communesList">
+        <datalist id="communesList"></datalist>
+        <button type="submit" onclick="rechercherCommune()">Go</button>
+    </div>
+
+    <div class="button-container">
+        <div id="lienReglements" class="resultat icon-btn"></div>
+        <div id="lienPortail" class="resultat icon-btn"></div>
+    </div>
+
+    <div id="remarques" class="resultat"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
