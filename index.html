@@ -23,15 +23,21 @@
 
     <!-- Nouvelle barre de recherche -->
     <div class="search">
-        <input placeholder="Rechercher une commune..." type="text" id="commune" name="commune" oninput="miseAJourListe(this.value)" list="communesList">
+        <input placeholder="Rechercher une commune..." type="text" id="commune" name="commune" list="communesList">
         <datalist id="communesList"></datalist>
-        <button type="submit" onclick="rechercherCommune()">Go</button>
+        <button type="submit" id="searchButton">Go</button>
     </div>
 
     <!-- Ajout du bouton carré en haut à droite pour le menu -->
-    <div id="menu-button">&#9776;</div>
-    <div id="menu-container">
+    <div class="menu-button" id="menuButton">☰</div>
+    <div id="menu-container" class="menu-container">
         <!-- Le contenu du menu sera ajouté ici dynamiquement -->
+        <div class="menu-content">
+            <div class="menu-item" onclick="fermerMenu()">Fermer</div>
+            <div class="menu-item" onclick="afficherListe()">Afficher Liste des Communes</div>
+            <div class="menu-item" onclick="chargeDonneesMenu()">Charger les données</div>
+            <!-- ... (autres éléments de menu) ... -->
+        </div>
     </div>
 
     <div class="button-container">
@@ -41,8 +47,40 @@
 
     <div id="remarques" class="resultat"></div>
 
+    <!-- Conteneur pour le tableau modifiable -->
+    <div id="tableau-container">
+        <h2>Tableau Modifiable</h2>
+        <table id="editable-table" border="1">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Lien Règlements</th>
+                    <th>Lien Portail</th>
+                    <th>Remarques</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les lignes du tableau seront ajoutées dynamiquement ici -->
+            </tbody>
+        </table>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Ajout de la vérification avant d'accéder à l'élément pour le bouton du menu -->
+    <script>
+        var menuButton = document.getElementById('menuButton');
+        if (menuButton) {
+            menuButton.addEventListener('click', toggleMenu);
+        }
+
+        // Ajout de la vérification avant d'accéder à l'élément pour le bouton de recherche
+        var searchButton = document.getElementById('searchButton');
+        if (searchButton) {
+            searchButton.addEventListener('click', rechercherCommune);
+        }
+    </script>
 </body>
 
 </html>

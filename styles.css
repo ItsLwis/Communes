@@ -28,14 +28,21 @@ label {
 }
 
 input {
-    padding: 10px;
-    margin-bottom: 10px;
     width: 200px;
 }
 
 .search-container {
     display: flex;
     align-items: center;
+}
+
+.menu-button {
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #545454;
 }
 
 button {
@@ -59,7 +66,7 @@ button {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: 10px;  
+    margin-top: 10px;
 }
 
 .resultat {
@@ -102,3 +109,38 @@ datalist {
     background-color: #EAF7E7;
     color: #545454;
 }
+
+/* Styles pour le menu avec effet de glissement */
+#menu-container {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+    #menu-container.show {
+        right: 0;
+    }
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.menu-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    color: #545454;
+    cursor: pointer;
+    text-align: center;
+}
+
+    .menu-item:hover {
+        background-color: #ddd;
+    }
