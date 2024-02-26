@@ -30,26 +30,36 @@ function rechercherCommune() {
     var resultatReglements = document.getElementById('lienReglements');
     var resultatPortail = document.getElementById('lienPortail');
     var resultatRemarques = document.getElementById('remarques');
-    var tableauContainer = document.getElementById('tableau-container');
 
     if (selectedCommune) {
+        // Condition pour la classe CSS verte ou rouge
         var reglementsBtnClass = selectedCommune.lienReglements.toLowerCase() === 'aucun' ? 'red-btn' : 'green-btn';
         var portailBtnClass = selectedCommune.lienPortail.toLowerCase() === 'aucun' ? 'red-btn' : 'green-btn';
 
-        resultatReglements.innerHTML = createButtonHtml('Reglements', selectedCommune.lienReglements, reglementsBtnClass);
-        resultatPortail.innerHTML = createButtonHtml('Guichet', selectedCommune.lienPortail, portailBtnClass);
+        // Affiche les logos dans les résultats avec les classes CSS conditionnelles
+        resultatReglements.innerHTML = '<button onclick="ouvrirLien(\'' + selectedCommune.lienReglements + '\')" class="icon-btn ' + reglementsBtnClass + '"><i class="gg-file-document"></i> Reglements</button>';
+        resultatPortail.innerHTML = '<button onclick="ouvrirLien(\'' + selectedCommune.lienPortail + '\')" class="icon-btn ' + portailBtnClass + '"><i class="gg-browser"></i> Guichet</button>';
         resultatRemarques.innerHTML = selectedCommune.remarques;
 
-        showElement(resultatReglements);
-        showElement(resultatPortail);
-        showElement(resultatRemarques);
+        // Affiche les résultats dans la console pour déboguer
+        console.log('Commune trouvée:', selectedCommune);
 
-        // Efface le tableau si une commune est trouvée
-        tableauContainer.innerHTML = '';
+        // Affiche les résultats
+        resultatReglements.style.display = 'block';
+        resultatPortail.style.display = 'block';
+        resultatRemarques.style.display = 'block';
     } else {
-        hideElement(resultatReglements);
-        hideElement(resultatPortail);
-        hideElement(resultatRemarques);
+        // Efface les résultats si la commune n'est pas trouvée
+        resultatReglements.innerHTML = '';
+        resultatPortail.innerHTML = '';
+        resultatRemarques.innerHTML = '';
+
+        resultatReglements.style.display = 'none';
+        resultatPortail.style.display = 'none';
+        resultatRemarques.style.display = 'none';
+
+        // Affiche un message dans la console pour déboguer
+        console.log('Aucune commune trouvée pour:', communeName);
     }
 }
 
@@ -57,104 +67,30 @@ function ouvrirLien(url) {
     window.open(url, '_blank');
 }
 
-function afficherTableau() {
-    var tableauContainer = document.getElementById('tableau-container');
-    var tableauHTML = '<h2>Liste des Communes</h2>';
-
-    tableauHTML += '<table id="editable-table" border="1">';
-    tableauHTML += '<thead><tr><th>Nom</th><th>Lien Règlements</th><th>Lien Portail</th><th>Remarques</th></tr></thead>';
-    tableauHTML += '<tbody>';
+function afficherListe() {
+    var listeContainer = document.getElementById('listeContainer');
+    var listeHTML = '<h2>Liste des Communes</h2><table border="1"><tr><th>Nom</th><th>Lien Règlements</th><th>Lien Portail</th><th>Remarques</th></tr>';
 
     communes.forEach(function (commune) {
-        tableauHTML += `<tr>
-            <td contenteditable="true" data-field="nom">${commune.nom}</td>
-            <td contenteditable="true" data-field="lienReglements">${commune.lienReglements}</td>
-            <td contenteditable="true" data-field="lienPortail">${commune.lienPortail}</td>
-            <td contenteditable="true" data-field="remarques">${commune.remarques}</td>
-        </tr>`;
+        listeHTML += '<tr><td>' + commune.nom + '</td><td>' + commune.lienReglements + '</td><td>' + commune.lienPortail + '</td><td>' + commune.remarques + '</td></tr>';
     });
 
-    tableauHTML += '</tbody></table>';
-    tableauContainer.innerHTML = tableauHTML;
+    listeHTML += '</table>';
+    listeContainer.innerHTML = listeHTML;
+    listeContainer.style.display = 'block';
+}
 
-    // Ajouter des événements pour permettre la modification
-    var editableCells = document.querySelectorAll('#editable-table tbody td[contenteditable="true"]');
-    editableCells.forEach(function (cell) {
-        cell.addEventListener('input', function () {
-            // Mettre à jour les données dans le tableau
-            var row = cell.parentNode;
-            row.setAttribute('data-' + cell.dataset.field, cell.innerText);
+fetch('communes.json')
+    .then(response => response.json())
+    .then(data => {
+        communes = data;
+        var datalistCommunes = document.getElementById("communesList");
+        communes.forEach(function (commune) {
+            var option = document.createElement("option");
+            option.value = commune.nom;
+            datalistCommunes.appendChild(option);
         });
+    })
+    .catch(error => {
+        console.error('Erreur lors du chargement des communes:', error);
     });
-}
-
-function afficherListe() {
-    afficherTableau();
-    hideElement(document.getElementById('menu-container')); // Ferme le menu lors de l'affichage de la liste
-}
-
-function toggleMenu() {
-    var menuContainer = document.getElementById('menu-container');
-    menuContainer.classList.toggle('show');
-}
-
-function fermerMenu() {
-    var menuContainer = document.getElementById('menu-container');
-    menuContainer.classList.remove('show');
-}
-
-function createButtonHtml(label, link, btnClass) {
-    return `<button onclick="ouvrirLien('${link}')" class="icon-btn ${btnClass}">
-        <i class="gg-file-document"></i> ${label}
-    </button>`;
-}
-
-function showElement(element) {
-    if (element) {
-        element.style.display = 'block';
-    }
-}
-
-function hideElement(element) {
-    if (element) {
-        element.style.display = 'none';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Ajoutez cet événement pour le bouton du menu
-    var menuButton = document.getElementById('menuButton');
-    if (menuButton) {
-        menuButton.addEventListener('click', toggleMenu);
-    }
-
-    // Ajoutez cet événement pour le bouton de recherche
-    var searchButton = document.getElementById('searchButton');
-    if (searchButton) {
-        searchButton.addEventListener('click', rechercherCommune);
-    }
-
-    // Ajoutez cet événement pour chaque élément du menu
-    var menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(function (menuItem) {
-        menuItem.addEventListener('click', function () {
-            fermerMenu(); // Utilisez la fonction fermerMenu pour fermer le menu
-            // Vous pouvez également ajouter ici d'autres actions liées à la sélection d'un élément du menu
-        });
-    });
-
-    fetch('communes.json')
-        .then(response => response.json())
-        .then(data => {
-            communes = data;
-            var datalistCommunes = document.getElementById("communesList");
-            communes.forEach(function (commune) {
-                var option = document.createElement("option");
-                option.value = commune.nom;
-                datalistCommunes.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Erreur lors du chargement des communes:', error);
-        });
-});
